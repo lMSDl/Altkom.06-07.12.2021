@@ -8,12 +8,14 @@ namespace Models
         //Read-only property - wartość może być ustawiona tylko w konstruktorze
         public DateTime Created { get; }
 
-        public Product()
+        private Product()
         {
             Created = DateTime.Now;
         }
 
 
+        //Singleton
+        public static Product Instance { get; } = new Product();
 
 
         //Auto-property
