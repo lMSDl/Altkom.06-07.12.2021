@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace Models
 {
-    public class Person
+    public class Person : Entity
     {
-        public int Id { get; set; }
 
         private string lastName;
 
