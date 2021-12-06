@@ -2,6 +2,7 @@
 using Services.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Services.InMemory
 {
@@ -11,14 +12,16 @@ namespace Services.InMemory
 
         public int Create(T entity)
         {
-            int maxId = 0;
-            foreach (var item in _entities)
-            {
-                if (item.Id > maxId)
-                    maxId = item.Id;
-            }
+            //int maxId = 0;
+            //foreach (var item in _entities)
+            //{
+            //    if (item.Id > maxId)
+            //        maxId = item.Id;
+            //}
 
-            entity.Id = maxId + 1;
+            //entity.Id = maxId + 1;
+            
+            entity.Id = _entities.Max(x => x.Id) + 1;
             _entities.Add(entity);
 
             return entity.Id;
@@ -26,31 +29,29 @@ namespace Services.InMemory
 
         public bool Delete(int id)
         {
-            foreach (var item in _entities)
-            {
-                if(item.Id == id)
-                {
-                    return _entities.Remove(item);
-                }
-            }
+            var entity = Read(id);
+            if (entity != null)
+                return _entities.Remove(entity);
             return false;
         }
 
         public T Read(int id)
         {
-            foreach (var item in _entities)
-            {
-                if (item.Id == id)
-                {
-                    return item;
-                }
-            }
-            return null;
+            //foreach (var item in _entities)
+            //{
+            //    if (item.Id == id)
+            //    {
+            //        return item;
+            //    }
+            //}
+            //return null;
+            return _entities.SingleOrDefault(x => x.Id == id);
         }
 
         public IEnumerable<T> Read()
         {
-            return new List<T>(_entities);
+            //return new List<T>(_entities);
+            return _entities.ToList();
         }
 
         public bool Update(int id, T entity)
