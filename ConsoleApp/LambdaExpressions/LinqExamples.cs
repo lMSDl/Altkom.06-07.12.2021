@@ -37,6 +37,13 @@ namespace ConsoleApp.LambdaExpressions
             var query7 = People.Skip(1).Take(3).Where(x => x.FirstName == "Ewa").Where(x => x.BirthDate.Year >= 1990).FirstOrDefault();
             var query8 = People.Where(x => x.LastName.Contains("ADAM")).Average(x => DateTime.Now.Year - x.BirthDate.Year);
 
+
+            //1. z kolekcji strings wybrać wyrazy z trzema literami i znakiem 'a'
+            //2. posortować kolekcję strings po ilości liter w wyrazach
+            //3. Zsumować wartości kolkcji numbers
+            //4. Z People wybrać osoby, które mają na imię Piotr lub Ewa
+            //5. z People wybrać osoby w wieku 50+ i wybrać ich nazwisko małymi literami
+            //6. wybrać jedną osobę z imieniem dłuższym niż 3 znaki
         }
     }
 }
