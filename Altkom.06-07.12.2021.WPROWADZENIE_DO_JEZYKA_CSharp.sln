@@ -5,13 +5,15 @@ VisualStudioVersion = 16.0.31911.196
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleApp", "ConsoleApp\ConsoleApp.csproj", "{AA73E7D2-82E2-4330-A88D-5AA6DF74E173}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Models", "Models\Models.csproj", "{E1A80966-8BB7-48A2-934D-F1743AD36759}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Models", "Models\Models.csproj", "{E1A80966-8BB7-48A2-934D-F1743AD36759}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services.Interfaces", "Services.Interfaces\Services.Interfaces.csproj", "{352CA9D7-5FBF-436B-A2F2-2EA6CFA9D64D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services.Interfaces", "Services.Interfaces\Services.Interfaces.csproj", "{352CA9D7-5FBF-436B-A2F2-2EA6CFA9D64D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services.InMemory", "Services.InMemory\Services.InMemory.csproj", "{63803EEC-DD06-473D-82D7-9A6F61102770}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services.InMemory", "Services.InMemory\Services.InMemory.csproj", "{63803EEC-DD06-473D-82D7-9A6F61102770}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services.InFileService", "Services.InFileService\Services.InFileService.csproj", "{551309E3-6982-4398-AB43-B75D2E552E89}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services.InFileService", "Services.InFileService\Services.InFileService.csproj", "{551309E3-6982-4398-AB43-B75D2E552E89}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfApp", "WpfApp\WpfApp.csproj", "{052A3142-015B-4AEA-8790-CD32E76F7698}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{551309E3-6982-4398-AB43-B75D2E552E89}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{551309E3-6982-4398-AB43-B75D2E552E89}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{551309E3-6982-4398-AB43-B75D2E552E89}.Release|Any CPU.Build.0 = Release|Any CPU
+		{052A3142-015B-4AEA-8790-CD32E76F7698}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{052A3142-015B-4AEA-8790-CD32E76F7698}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{052A3142-015B-4AEA-8790-CD32E76F7698}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{052A3142-015B-4AEA-8790-CD32E76F7698}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

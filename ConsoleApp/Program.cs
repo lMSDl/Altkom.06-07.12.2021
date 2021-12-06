@@ -1,4 +1,5 @@
 ﻿using System;
+using ConsoleApp.Delegates;
 using Models;
 using Services.InFileService;
 using Services.InMemory;
@@ -12,8 +13,16 @@ namespace ConsoleApp
 
         static void Main(string[] args)
         {
+            var example = new EventExample();
+            example.NumberEvent += delegate () { Console.WriteLine("=="); };
+            example.NumberEvent += delegate () { Console.WriteLine("--"); };
+            //example.NumberEvent = null;
 
-            var person1 = new Educator() { FirstName = "Ewa", LastName = "Ewowska", BirthDate = new DateTime(1986, 12, 5) };
+            example.Test();
+
+            new BuildInDelegatesExample().Test();
+
+                var person1 = new Educator() { FirstName = "Ewa", LastName = "Ewowska", BirthDate = new DateTime(1986, 12, 5) };
             var person2 = new Educator() { FirstName = "Adam", LastName = "Adamski", BirthDate = new DateTime(1986, 12, 5) };
 
             Service.Create(person1);
