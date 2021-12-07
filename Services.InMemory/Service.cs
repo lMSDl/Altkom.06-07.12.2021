@@ -4,11 +4,16 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Services.InMemory
+namespace Services
 {
-    public class MemoryService<T> : IService<T> where T : Entity
+    public class Service<T> : IService<T> where T : Entity
     {
-        private ICollection<T> _entities = new List<T>();
+        private ICollection<T> _entities;
+
+        public Service(ICollection<T> entities)
+        {
+            _entities = entities;
+        }
 
         public int Create(T entity)
         {

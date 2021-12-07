@@ -1,18 +1,27 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using ConsoleApp.Delegates;
 using ConsoleApp.LambdaExpressions;
 using Models;
-using Services.InFileService;
-using Services.InMemory;
+using Services;
 using Services.Interfaces;
 
 namespace ConsoleApp
 {
     class Program
     {
-        static IService<Educator> Service { get; set; } = new MemoryService<Educator>();
+        //static IService<Educator> Service { get; set; } = new Service<Educator>(new List<Educator>());
+        static IService<Educator> Service { get; set; } = new Service<Educator>(new FileDataProvider<Educator>(
+            Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "test.txt")
+            ));
 
         static void Main(string[] args)
+        {
+            TestService();
+        }
+
+        private static void Operators()
         {
             Nullable<int> a = null;
             int? b = 5;
@@ -37,7 +46,6 @@ namespace ConsoleApp
 
             c = (a - b == 0 || a - b == null) ? (a + b) ?? 0 : (a - b) ?? 0;
             c = ((a - b == 0 || a - b == null) ? (a + b) : (a - b)) ?? 0;
-
         }
 
         private static void TestService()
@@ -51,8 +59,6 @@ namespace ConsoleApp
             var people = Service.Read();
 
             Service.Delete(1);
-
-            Service = new FileService<Educator>();
 
             people = Service.Read();
         }
