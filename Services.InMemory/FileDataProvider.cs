@@ -13,6 +13,7 @@ namespace Services
         protected ICollection<T> _cache;
 
         private Encryptor _encryptor = new Encryptor("123123123");
+        private AsymmetricEncryptor _asymmetricEncryptor = new AsymmetricEncryptor();
         public FileDataProvider(string path)
         {
             _path = path;
@@ -33,7 +34,8 @@ namespace Services
 
                 var bytes = File.ReadAllBytes(_path);
 
-                var content = Encoding.Unicode.GetString(_encryptor.Decrypt(bytes, "AlaMaKota"));
+               // var content = Encoding.Unicode.GetString(_encryptor.Decrypt(bytes, "AlaMaKota"));
+                var content = Encoding.Unicode.GetString(_asymmetricEncryptor.Decrypt(bytes, "CN=localhost"));
 
                 _cache = DeserializeCache(content);
             }
@@ -61,7 +63,8 @@ namespace Services
                 //fileStream.Dispose();
             */
 
-            var result = _encryptor.Encrypt(SerializeCache(_cache), "AlaMaKota");
+            //var result = _encryptor.Encrypt(SerializeCache(_cache), "AlaMaKota");
+            var result = _asymmetricEncryptor.Encrypt(SerializeCache(_cache), "CN=localhost");
             File.WriteAllBytes(_path, result);
         }
 
