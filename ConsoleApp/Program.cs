@@ -14,18 +14,35 @@ namespace ConsoleApp
 
         static void Main(string[] args)
         {
-            var example = new EventExample();
-            example.NumberEvent += delegate () { Console.WriteLine("=="); };
-            example.NumberEvent += delegate () { Console.WriteLine("--"); };
-            //example.NumberEvent = null;
+            Nullable<int> a = null;
+            int? b = 5;
+            int c;
 
-            example.Test();
+            if (a - b == 0 || a - b == null)
+            {
+                // ?? - wybiera wartość po prawej stronie jeśli wyrażenie po lewej jest null
+                c = (a + b) ?? 0;
+            }
+            else
+            {
+                var result = a - b;
+                //if (result != null)
+                //if (result.HasValue)
+                //    c = result.Value;
+                //else
+                //    c = 0;
 
-            new LambdaExpressionsExample().Test();
-            new LinqExamples().Test();
+                c = result.HasValue ? result.Value : 0;
+            }
 
+            c = (a - b == 0 || a - b == null) ? (a + b) ?? 0 : (a - b) ?? 0;
+            c = ((a - b == 0 || a - b == null) ? (a + b) : (a - b)) ?? 0;
 
-                var person1 = new Educator() { FirstName = "Ewa", LastName = "Ewowska", BirthDate = new DateTime(1986, 12, 5) };
+        }
+
+        private static void TestService()
+        {
+            var person1 = new Educator() { FirstName = "Ewa", LastName = "Ewowska", BirthDate = new DateTime(1986, 12, 5) };
             var person2 = new Educator() { FirstName = "Adam", LastName = "Adamski", BirthDate = new DateTime(1986, 12, 5) };
 
             Service.Create(person1);
@@ -35,10 +52,22 @@ namespace ConsoleApp
 
             Service.Delete(1);
 
-            Service  = new FileService<Educator>();
+            Service = new FileService<Educator>();
 
             people = Service.Read();
+        }
 
+        private static void Delagates_Lambda_Linq()
+        {
+            var example = new EventExample();
+            example.NumberEvent += delegate () { Console.WriteLine("=="); };
+            example.NumberEvent += delegate () { Console.WriteLine("--"); };
+            //example.NumberEvent = null;
+
+            example.Test();
+
+            new LambdaExpressionsExample().Test();
+            new LinqExamples().Test();
         }
 
         private static void HelloWorld()
