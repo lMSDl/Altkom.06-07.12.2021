@@ -1,12 +1,8 @@
-﻿using Models;
-using Newtonsoft.Json;
-using System;
+﻿using Newtonsoft.Json;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Services
 {
@@ -23,12 +19,27 @@ namespace Services
 
         private void ReadCache()
         {
-            _cache = new List<T>();
+            if (File.Exists(_path))
+            {
+                string content = File.ReadAllText(_path);
+
+                //using (var fileStream = new FileStream(_path, FileMode.Open, FileAccess.Read))
+                //using (var streamReader = new StreamReader(fileStream))
+                //{
+                //    content = streamReader.ReadToEnd();
+                //}
+
+                _cache = DeserializeCache(content);
+            }
+            else
+            {
+                _cache = new List<T>();
+            }
         }
 
         private void WriteCache()
         {
-            File.WriteAllText(_path, SerializeCache());
+            File.WriteAllText(_path, SerializeCache(_cache));
             /*
                 //blok using - automatyczne wywołanie Dispose po wyjściu z bloku
                 using (var fileStream = new FileStream(_path, FileMode.Create, FileAccess.Write))
@@ -44,16 +55,21 @@ namespace Services
             */
         }
 
-        private string SerializeCache()
+        private JsonSerializerSettings JsonSerializerSettings = new JsonSerializerSettings()
         {
-            var settings = new JsonSerializerSettings()
-            {
-                Formatting = Formatting.Indented,
-                DefaultValueHandling = DefaultValueHandling.Ignore,
-                DateFormatString = "yyyy-MM-dd HH:mm:ss"
-            };
+            Formatting = Formatting.Indented,
+            DefaultValueHandling = DefaultValueHandling.Ignore,
+            DateFormatString = "yyyy-MM-dd HH:mm:ss"
+        };
 
-            return JsonConvert.SerializeObject(_cache, settings);
+        private string SerializeCache(IEnumerable<T> input)
+        {
+            return JsonConvert.SerializeObject(input, JsonSerializerSettings);
+        }
+
+        private ICollection<T> DeserializeCache(string input)
+        {
+            return JsonConvert.DeserializeObject<ICollection<T>>(input, JsonSerializerSettings);
         }
 
 
@@ -87,13 +103,13 @@ namespace Services
 
         public IEnumerator<T> GetEnumerator()
         {
-            return _cache?.GetEnumerator();
+            return _cache?.GetEnumerator() ?? Enumerable.Empty<T>().GetEnumerator();
         }
 
         public bool Remove(T item)
         {
             var result = _cache?.Remove(item) ?? false;
-            if(result)
+            if (result)
                 WriteCache();
             return result;
         }
