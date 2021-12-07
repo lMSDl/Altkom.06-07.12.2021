@@ -1,4 +1,5 @@
 ﻿using Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -27,7 +28,7 @@ namespace Services
 
         private void WriteCache()
         {
-            File.WriteAllText(_path, "Hello");
+            File.WriteAllText(_path, SerializeCache());
             /*
                 //blok using - automatyczne wywołanie Dispose po wyjściu z bloku
                 using (var fileStream = new FileStream(_path, FileMode.Create, FileAccess.Write))
@@ -43,6 +44,17 @@ namespace Services
             */
         }
 
+        private string SerializeCache()
+        {
+            var settings = new JsonSerializerSettings()
+            {
+                Formatting = Formatting.Indented,
+                DefaultValueHandling = DefaultValueHandling.Ignore,
+                DateFormatString = "yyyy-MM-dd HH:mm:ss"
+            };
+
+            return JsonConvert.SerializeObject(_cache, settings);
+        }
 
 
         public int Count => _cache?.Count() ?? 0;
