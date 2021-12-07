@@ -20,8 +20,10 @@ namespace Services.InMemory
             //}
 
             //entity.Id = maxId + 1;
-            
-            entity.Id = _entities.Max(x => x.Id) + 1;
+            if (!_entities.Any())
+                entity.Id = 1;
+            else
+                entity.Id = _entities.Max(x => x.Id) + 1;
             _entities.Add(entity);
 
             return entity.Id;
