@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 
 namespace Services
 {
@@ -11,6 +12,7 @@ namespace Services
         protected string _path;
         protected ICollection<T> _cache;
 
+        private Encryptor _encryptor = new Encryptor("123123123");
         public FileDataProvider(string path)
         {
             _path = path;
@@ -21,13 +23,17 @@ namespace Services
         {
             if (File.Exists(_path))
             {
-                string content = File.ReadAllText(_path);
+                //string content = File.ReadAllText(_path);
 
                 //using (var fileStream = new FileStream(_path, FileMode.Open, FileAccess.Read))
                 //using (var streamReader = new StreamReader(fileStream))
                 //{
                 //    content = streamReader.ReadToEnd();
                 //}
+
+                var bytes = File.ReadAllBytes(_path);
+
+                var content = Encoding.Unicode.GetString(_encryptor.Decrypt(bytes, "AlaMaKota"));
 
                 _cache = DeserializeCache(content);
             }
@@ -40,7 +46,7 @@ namespace Services
 
         protected virtual void WriteCache()
         {
-            File.WriteAllText(_path, SerializeCache(_cache));
+            //File.WriteAllText(_path, SerializeCache(_cache));
             /*
                 //blok using - automatyczne wywołanie Dispose po wyjściu z bloku
                 using (var fileStream = new FileStream(_path, FileMode.Create, FileAccess.Write))
@@ -54,6 +60,9 @@ namespace Services
                 //streamWriter.Dispose();
                 //fileStream.Dispose();
             */
+
+            var result = _encryptor.Encrypt(SerializeCache(_cache), "AlaMaKota");
+            File.WriteAllBytes(_path, result);
         }
 
         protected abstract ICollection<T> DeserializeCache(string content);
