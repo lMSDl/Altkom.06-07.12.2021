@@ -3,10 +3,11 @@ using Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Services
 {
-    public class Service<T> : IService<T> where T : Entity
+    public class Service<T> : IService<T>, IAsyncService<T> where T : Entity
     {
         private ICollection<T> _entities;
 
@@ -34,12 +35,23 @@ namespace Services
             return entity.Id;
         }
 
+        public Task<int> CreateAsync(T entity)
+        {
+            return Task.Run(() => Create(entity));
+        }
+
         public bool Delete(int id)
         {
+
             var entity = Read(id);
             if (entity != null)
                 return _entities.Remove(entity);
             return false;
+        }
+
+        public Task<bool> DeleteAsync(int id)
+        {
+            return Task.Run(() => Delete(id));
         }
 
         public T Read(int id)
@@ -57,8 +69,19 @@ namespace Services
 
         public IEnumerable<T> Read()
         {
+            Task.Delay(5000).Wait();
             //return new List<T>(_entities);
             return _entities.ToList();
+        }
+
+        public Task<T> ReadAsync(int id)
+        {
+            return Task.Run(() => Read(id));
+        }
+
+        public Task<IEnumerable<T>> ReadAsync()
+        {
+            return Task.Run(() => Read());
         }
 
         public bool Update(int id, T entity)
@@ -70,6 +93,11 @@ namespace Services
                 return true;
             }
             return false;
+        }
+
+        public Task<bool> UpdateAsync(int id, T entity)
+        {
+            return Task.Run(() => Update(id, entity));
         }
     }
 }

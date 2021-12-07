@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:WpfApp"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        <Button Click="Button_Click">Click ME!</Button>
-    </Grid>
+    <DockPanel>
+        <Button DockPanel.Dock="Bottom" Click="Button_Click">Refresh</Button>
+        <DataGrid ItemsSource="{Binding Items}"/>
+    </DockPanel>
 </Window>
