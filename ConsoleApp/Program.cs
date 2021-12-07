@@ -12,8 +12,8 @@ namespace ConsoleApp
     class Program
     {
         //static IService<Educator> Service { get; set; } = new Service<Educator>(new List<Educator>());
-        static IService<Educator> Service { get; set; } = new Service<Educator>(new XmlDataProvider<Educator>(
-            Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "test.xml")
+        static IService<Person> Service { get; set; } = new Service<Person>(new WordDataProvider(
+            Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "test.docx")
             ));
 
         static void Main(string[] args)

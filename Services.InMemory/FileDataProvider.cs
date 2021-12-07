@@ -8,8 +8,8 @@ namespace Services
 {
     public abstract class FileDataProvider<T> : ICollection<T>
     {
-        private string _path;
-        private ICollection<T> _cache;
+        protected string _path;
+        protected ICollection<T> _cache;
 
         public FileDataProvider(string path)
         {
@@ -38,7 +38,7 @@ namespace Services
         }
 
 
-        private void WriteCache()
+        protected virtual void WriteCache()
         {
             File.WriteAllText(_path, SerializeCache(_cache));
             /*
