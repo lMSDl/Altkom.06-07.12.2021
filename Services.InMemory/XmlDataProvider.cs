@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace Services
 {
@@ -15,7 +16,13 @@ namespace Services
 
         protected override ICollection<T> DeserializeCache(string content)
         {
-            return new List<T>();
+            var xml = XDocument.Parse(content);
+            var json = JsonConvert.SerializeXNode(xml, Formatting.None, true);
+            json = json.Substring(4 + typeof(T).Name.Length);
+            json = json.Substring(0, json.Length - 1);
+            if (!json.StartsWith("["))
+                json = $"[{json}]";
+            return base.DeserializeCache(json);
         }
 
         protected override string SerializeCache(IEnumerable<T> cache)
