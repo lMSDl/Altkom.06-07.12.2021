@@ -35,15 +35,50 @@ namespace ConsoleApp.LambdaExpressions
             var query6 = People.Where(x => x.BirthDate.Year > 1990).Select(x => x.FullName).ToList();
 
             var query7 = People.Skip(1).Take(3).Where(x => x.FirstName == "Ewa").Where(x => x.BirthDate.Year >= 1990).FirstOrDefault();
-            var query8 = People.Where(x => x.LastName.Contains("ADAM")).Average(x => DateTime.Now.Year - x.BirthDate.Year);
+            var query8 = People.Where(x => x.LastName.Contains("ADAM")).Select(x => DateTime.Now.Year - x.BirthDate.Year).Average();
 
 
             //1. z kolekcji strings wybrać wyrazy z trzema literami i znakiem 'a'
+            var query9 = strings.Where(s => s.Length == 3).Where(s => s.Contains('a')).ToList();
+
             //2. posortować kolekcję strings po ilości liter w wyrazach
-            //3. Zsumować wartości kolkcji numbers
+            var query10 = strings.OrderBy(s => s.Length).ThenByDescending(x => x).ToList();
+
+            //3. Zsumować wartości kolekcji numbers
+            var query11 = numbers.Sum(x => x);
             //4. Z People wybrać osoby, które mają na imię Piotr lub Ewa
+            var query12 = People.Where(p => p.FirstName == "Ewa" || p.FirstName == "Piotr").ToList();
+
             //5. z People wybrać osoby w wieku 50+ i wybrać ich nazwisko małymi literami
+            var query13 = People.Where(p => DateTime.Now.Year - p.BirthDate.Year >= 50).Select(p => p.LastName.ToLower()).ToList();
+
             //6. wybrać jedną osobę z imieniem dłuższym niż 3 znaki
+            var query14 = People.FirstOrDefault(x => x.FirstName.Length > 3);
+
+            var query15 = People.GroupBy(x => x.FirstName).Select(x => $"{x.Key} - {x.Average(y => DateTime.Now.Year - y.BirthDate.Year)}");
+
+            Dictionary<string, ICollection<Person>> groups = new();
+            foreach (var item in People)
+            {
+                if(!groups.ContainsKey(item.FirstName))
+                {
+                    groups[item.FirstName] = new List<Person>();
+                }
+                groups[item.FirstName].Add(item);
+            }
+            ICollection<string> result = new List<string>();
+            foreach (var group in groups)
+            {
+                var average = 0f;
+                foreach (var item in group.Value)
+                {
+                    average += DateTime.Now.Year - item.BirthDate.Year;
+                }
+                average /= group.Value.Count;
+
+                result.Add($"{group.Key} - {average}");
+            }
+
         }
     }
 }
