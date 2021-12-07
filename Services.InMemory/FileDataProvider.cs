@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace Services
 {
-    public class FileDataProvider<T> : ICollection<T>
+    public abstract class FileDataProvider<T> : ICollection<T>
     {
         private string _path;
         private ICollection<T> _cache;
@@ -37,6 +37,7 @@ namespace Services
             }
         }
 
+
         private void WriteCache()
         {
             File.WriteAllText(_path, SerializeCache(_cache));
@@ -55,23 +56,8 @@ namespace Services
             */
         }
 
-        private JsonSerializerSettings JsonSerializerSettings = new JsonSerializerSettings()
-        {
-            Formatting = Formatting.Indented,
-            DefaultValueHandling = DefaultValueHandling.Ignore,
-            DateFormatString = "yyyy-MM-dd HH:mm:ss"
-        };
-
-        private string SerializeCache(IEnumerable<T> input)
-        {
-            return JsonConvert.SerializeObject(input, JsonSerializerSettings);
-        }
-
-        private ICollection<T> DeserializeCache(string input)
-        {
-            return JsonConvert.DeserializeObject<ICollection<T>>(input, JsonSerializerSettings);
-        }
-
+        protected abstract ICollection<T> DeserializeCache(string content);
+        protected abstract string SerializeCache(IEnumerable<T> cache);
 
         public int Count => _cache?.Count() ?? 0;
 
